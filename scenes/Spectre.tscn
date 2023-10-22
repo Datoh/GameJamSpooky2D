@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://dsqlh84n7dv"]
+
+[ext_resource type="Script" path="res://scenes/Spectre.gd" id="1_b3ea1"]
+[ext_resource type="Texture2D" uid="uid://bdxh60ws5ikir" path="res://assets/graphics/sprites.png" id="1_rleui"]
+[ext_resource type="AudioStream" uid="uid://dymm0ymfw4bby" path="res://assets/sounds/Zombie.wav" id="3_ov6iv"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mur1e"]
+light_mode = 2
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nvy64"]
+radius = 6.66667
+height = 24.0
+
+[node name="Spectre" type="CharacterBody2D"]
+scale = Vector2(0.75, 0.75)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_b3ea1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_mur1e")
+position = Vector2(8, 0)
+texture = ExtResource("1_rleui")
+hframes = 10
+vframes = 10
+frame = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_nvy64")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_nvy64")
+
+[node name="AudioStream" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ov6iv")
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_velocity_computed"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_body_exited"]

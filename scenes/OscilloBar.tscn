@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://rtc2ud7wcdxi"]
+
+[ext_resource type="Texture2D" uid="uid://bxu7ju2yntbi6" path="res://assets/graphics/oscillo-bar.png" id="1_qo8s4"]
+[ext_resource type="Script" path="res://scenes/OscilloBar.gd" id="2_37e2p"]
+[ext_resource type="PackedScene" uid="uid://1prs7yfcxgnw" path="res://scenes/OscilloButton.tscn" id="3_00m7b"]
+[ext_resource type="Texture2D" uid="uid://c4fmqb1tii0k1" path="res://assets/graphics/oscillo-button.png" id="4_2qufb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1iodi"]
+atlas = ExtResource("4_2qufb")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kthhp"]
+atlas = ExtResource("4_2qufb")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4a1nk"]
+atlas = ExtResource("4_2qufb")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8q0od"]
+atlas = ExtResource("4_2qufb")
+region = Rect2(96, 0, 48, 48)
+
+[node name="Bar" type="TextureRect"]
+offset_right = 451.0
+offset_bottom = 88.0
+pivot_offset = Vector2(4, 41)
+texture = ExtResource("1_qo8s4")
+script = ExtResource("2_37e2p")
+
+[node name="Amplitude" parent="." instance=ExtResource("3_00m7b")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 554.0
+offset_top = 14.0
+offset_right = 602.0
+offset_bottom = 62.0
+texture = SubResource("AtlasTexture_1iodi")
+
+[node name="AmplitudeLabel" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 554.0
+offset_top = 14.0
+offset_right = 594.0
+offset_bottom = 54.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_kthhp")
+
+[node name="Frequency" parent="." instance=ExtResource("3_00m7b")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 640.0
+offset_top = 13.0
+offset_right = 688.0
+offset_bottom = 61.0
+texture = SubResource("AtlasTexture_4a1nk")
+can_be_negative = false
+
+[node name="FrequencyLabel" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 13.0
+offset_right = 688.0
+offset_bottom = 61.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_8q0od")
+
+[connection signal="value_changed" from="Amplitude" to="." method="_on_amplitude_value_changed"]
+[connection signal="value_changed" from="Frequency" to="." method="_on_frequency_value_changed"]

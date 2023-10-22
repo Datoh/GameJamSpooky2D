@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://1prs7yfcxgnw"]
+
+[ext_resource type="Texture2D" uid="uid://c4fmqb1tii0k1" path="res://assets/graphics/oscillo-button.png" id="1_53qoi"]
+[ext_resource type="Script" path="res://scenes/OscilloButton.gd" id="2_5su27"]
+
+[node name="OscilloButton" type="TextureRect"]
+offset_right = 48.0
+offset_bottom = 48.0
+pivot_offset = Vector2(24, 23)
+mouse_filter = 0
+texture = ExtResource("1_53qoi")
+script = ExtResource("2_5su27")

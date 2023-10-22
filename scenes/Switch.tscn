@@ -1,0 +1,85 @@
+[gd_scene load_steps=8 format=3 uid="uid://v78jobrf0e72"]
+
+[ext_resource type="Script" path="res://scenes/Switch.gd" id="1_cv1yc"]
+[ext_resource type="Texture2D" uid="uid://300oyfe1rynr" path="res://assets/graphics/tilemap.png" id="1_upnmb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ehpct"]
+size = Vector2(24, 64)
+
+[sub_resource type="Animation" id="Animation_1fuao"]
+resource_name = "active"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [31, 30]
+}
+
+[sub_resource type="Animation" id="Animation_5qea0"]
+resource_name = "off"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [31]
+}
+
+[sub_resource type="Animation" id="Animation_c2d0m"]
+resource_name = "on"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [30]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_quyw2"]
+_data = {
+"active": SubResource("Animation_1fuao"),
+"off": SubResource("Animation_5qea0"),
+"on": SubResource("Animation_c2d0m")
+}
+
+[node name="Switch" type="StaticBody2D"]
+collision_layer = 3
+script = ExtResource("1_cv1yc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_upnmb")
+hframes = 10
+vframes = 10
+frame = 2
+region_rect = Rect2(128, 0, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(20, 0)
+shape = SubResource("RectangleShape2D_ehpct")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_quyw2")
+}

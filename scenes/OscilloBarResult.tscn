@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0d75p62ehxts"]
+
+[ext_resource type="Texture2D" uid="uid://bxu7ju2yntbi6" path="res://assets/graphics/oscillo-bar.png" id="1_qs4g0"]
+[ext_resource type="Script" path="res://scenes/OscilloBarResult.gd" id="2_8f2dp"]
+
+[node name="BarResult" type="TextureRect"]
+offset_right = 451.0
+offset_bottom = 88.0
+pivot_offset = Vector2(3, 41)
+texture = ExtResource("1_qs4g0")
+script = ExtResource("2_8f2dp")

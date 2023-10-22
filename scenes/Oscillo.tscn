@@ -1,0 +1,85 @@
+[gd_scene load_steps=9 format=3 uid="uid://3tdm72k6dw26"]
+
+[ext_resource type="Texture2D" uid="uid://c7ri1isdy7x7x" path="res://assets/graphics/oscillo.png" id="1_303fj"]
+[ext_resource type="Script" path="res://scenes/Oscillo.gd" id="2_uss1l"]
+[ext_resource type="PackedScene" uid="uid://rtc2ud7wcdxi" path="res://scenes/OscilloBar.tscn" id="2_vgb4v"]
+[ext_resource type="PackedScene" uid="uid://b0d75p62ehxts" path="res://scenes/OscilloBarResult.tscn" id="3_7x8ig"]
+[ext_resource type="Texture2D" uid="uid://bwasvfrrnre1w" path="res://assets/graphics/citrink.png" id="5_uuokr"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_acu2d"]
+texture = ExtResource("5_uuokr")
+region_rect = Rect2(49, 1, 6, 6)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6mhjr"]
+texture = ExtResource("5_uuokr")
+region_rect = Rect2(33, 1, 6, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kkfkd"]
+atlas = ExtResource("5_uuokr")
+region = Rect2(25, 1, 6, 6)
+
+[node name="Oscillo" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_303fj")
+script = ExtResource("2_uss1l")
+
+[node name="Bar1" parent="." instance=ExtResource("2_vgb4v")]
+layout_mode = 0
+offset_left = 95.0
+offset_top = 116.0
+offset_right = 546.0
+offset_bottom = 204.0
+curve_color = Color(0.321569, 0.764706, 0.247059, 1)
+
+[node name="Bar2" parent="." instance=ExtResource("2_vgb4v")]
+layout_mode = 0
+offset_left = 95.0
+offset_top = 221.0
+offset_right = 546.0
+offset_bottom = 309.0
+bar_index = 1
+curve_color = Color(0.321569, 0.764706, 0.247059, 1)
+
+[node name="Bar3" parent="." instance=ExtResource("2_vgb4v")]
+layout_mode = 0
+offset_left = 95.0
+offset_top = 325.0
+offset_right = 546.0
+offset_bottom = 413.0
+bar_index = 2
+curve_color = Color(0.321569, 0.764706, 0.247059, 1)
+
+[node name="BarResult" parent="." instance=ExtResource("3_7x8ig")]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 429.0
+offset_right = 547.0
+offset_bottom = 517.0
+correct_curve_color = Color(0.988235, 0.964706, 0.376471, 1)
+curve_color = Color(0.321569, 0.764706, 0.247059, 1)
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 674.0
+offset_top = 473.0
+offset_right = 754.0
+offset_bottom = 498.0
+theme_override_styles/background = SubResource("StyleBoxTexture_acu2d")
+theme_override_styles/fill = SubResource("StyleBoxTexture_6mhjr")
+value = 50.0
+show_percentage = false
+
+[node name="Ok" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 674.0
+offset_top = 473.0
+offset_right = 754.0
+offset_bottom = 498.0
+texture = SubResource("AtlasTexture_kkfkd")
+
+[connection signal="values_changed" from="Bar1" to="BarResult" method="_on_bar_values_changed"]
+[connection signal="values_changed" from="Bar2" to="BarResult" method="_on_bar_values_changed"]
+[connection signal="values_changed" from="Bar3" to="BarResult" method="_on_bar_values_changed"]
+[connection signal="result" from="BarResult" to="." method="_on_bar_result"]
