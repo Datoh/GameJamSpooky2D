@@ -5,8 +5,12 @@ class_name OscilloCPU
 @onready var animation_player = $AnimationPlayer
 
 @export var correct_values := [
-    {"amplitude": 1.0, "frequency": 2.0},
-    {"amplitude": 5.0, "frequency": -1.0}]
+    {"amplitude": 1, "frequency": 2},
+    {"amplitude": 5, "frequency": -1}]
+
+@export var values := [
+    {"amplitude": 1, "frequency": 1},
+    {"amplitude": 1, "frequency": 1}]
 
 @export var on := false
 
@@ -22,7 +26,7 @@ func _ready():
 
 func action():
   if on:
-    display_oscillo.emit(correct_values)
+    display_oscillo.emit(correct_values, values)
 
 
 func enable(value: bool, timer_value: float):

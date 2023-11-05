@@ -15,15 +15,21 @@ var _last_action_time = 0
 var _last_action = ""
 const DELAY_BETWEEN_ACTION = 100
 
-signal out(context: Node2D, ok: bool)
+signal out(context: Node2D, ok: bool, values: Array)
 
 
 func _ready():
   # for debug purpose
   Time.get_unix_time_from_system()
-  init(null, [
-    {"amplitude": 1.0, "frequency": 2.0},
-    {"amplitude": 5.0, "frequency": -1.0}])
+  init(null,
+    [
+      {"amplitude": 1, "frequency": 2},
+      {"amplitude": 5, "frequency": -1},
+    ],
+    [
+      {"amplitude": 1, "frequency": 1},
+      {"amplitude": 1, "frequency": 1},
+    ])
 
 
 func _physics_process(_delta):
@@ -31,8 +37,11 @@ func _physics_process(_delta):
     return
   var current_time := Time.get_ticks_msec()
   if Input.is_action_just_pressed("ui_cancel"):
+    var values = Array()
+    for bar in bars:
+      values.append({"amplitude": bar.amplitude.value, "frequency": bar.frequency.value})
     progress_bar.max_value = 0
-    out.emit(context, ok)
+    out.emit(context, ok, values)
   elif Input.is_action_just_pressed("ui_focus_prev") or Input.is_action_just_pressed("ui_accept"):
     current_bar = (current_bar + 1) % bars.size()
     _last_action = ""
@@ -59,26 +68,19 @@ func _is_action_ok(action: String, current_time: int) -> bool:
     return true
   return false
 
-func init(new_context: Node2D, new_correct_values: Array):
-  bars.clear()
+func init(new_context: Node2D, new_correct_values: Array, new_values: Array):
+  bars = [ $Bar1, $Bar2, $Bar3 ]
+  assert(new_correct_values.size() == new_values.size())
+  assert(new_correct_values.size() <= bars.size())
   context = new_context
   correct_values = new_correct_values
-  $Bar1.step = step
-  $Bar2.step = step
-  $Bar3.step = step
-  $Bar2.visible = correct_values.size() >= 2
-  $Bar3.visible = correct_values.size() >= 3
-  $Bar1.set_values(0.0, 0.0)
-  $Bar2.set_values(0.0, 0.0)
-  $Bar3.set_values(0.0, 0.0)
-  $Bar1.set_values(1.0, 1.0)
-  bars.append($Bar1)
-  if correct_values.size() >= 2:
-    $Bar2.set_values(1.0, 1.0)
-    bars.append($Bar2)
-  if correct_values.size() >= 3:
-    $Bar3.set_values(1.0, 1.0)
-    bars.append($Bar2)
+  for bar in bars:
+    bar.set_values(0, 0)
+    bar.step = step
+    bar.visible = true
+  bars.resize(correct_values.size())
+  for i in range(new_values.size()):
+    bars[i].set_values(new_values[i].amplitude, new_values[i].frequency)
   $BarResult.step = step
   $BarResult.set_correct_values(correct_values)
   current_bar = clamp(current_bar, 0, bars.size() - 1)

@@ -22,22 +22,23 @@ func _process(delta: float):
     player.life -= damage * delta
 
 
-func _on_display_oscillo(context: LightsGroup, correct_values: Array):
+func _on_display_oscillo(context: LightsGroup, correct_values: Array, values: Array):
   # call on next frame
   get_tree().process_frame.connect(func():
       context.oscillo_cpu.timer_changed.connect(oscillo._on_timer_changed)
-      oscillo.init(context, correct_values)
+      oscillo.init(context, correct_values, values)
       oscillo_layer.visible = true
       oscillo.visible = true
       gui.visible = false
   , CONNECT_ONE_SHOT)
 
 
-func _on_oscillo_out(context: Node2D, ok: bool):
+func _on_oscillo_out(context: Node2D, ok: bool, values: Array):
   # call on next frame
   get_tree().process_frame.connect(func():
       var lights_group := context as LightsGroup
       if lights_group != null:
+        lights_group.oscillo_cpu.values = values
         lights_group.oscillo_cpu.timer_changed.disconnect(oscillo._on_timer_changed)
         if ok:
           lights_group.oscillo_ok()

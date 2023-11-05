@@ -13,7 +13,7 @@ class_name LightsGroup
 var _lights : Array[Light] = []
 var _current_light : Light = null
 
-signal display_oscillo(context: LightsGroup, correct_values: Array)
+signal display_oscillo(context: LightsGroup, correct_values: Array, values: Array)
 
 func _ready():
   assert(start_light != null)
@@ -79,5 +79,5 @@ func _on_toggled_next_light_in_path(value: bool):
     oscillo_cpu.enable(true, oscillo_light.timer)
 
 
-func _on_display_oscillo(correct_values: Array):
-  display_oscillo.emit(self, correct_values)
+func _on_display_oscillo(correct_values: Array, values: Array):
+  display_oscillo.emit(self, correct_values, values)
